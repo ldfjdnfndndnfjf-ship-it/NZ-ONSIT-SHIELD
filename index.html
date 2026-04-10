@@ -12,6 +12,7 @@
             color: #e6edf3;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             min-height: 100vh;
+            overflow-x: hidden;
         }
         .glass-card {
             background: rgba(22, 27, 34, 0.8);
@@ -32,7 +33,24 @@
             text-shadow: 0 0 15px rgba(88, 166, 255, 0.6);
             letter-spacing: 2px;
         }
-        /* Custom Scrollbar for Results */
+        /* Lock Overlay Style */
+        #lockOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #010409;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .hidden-content {
+            display: none;
+        }
         #userResult::-webkit-scrollbar {
             width: 5px;
         }
@@ -44,98 +62,97 @@
 </head>
 <body class="p-4 md:p-12">
 
-    <div class="max-w-4xl mx-auto text-center mb-12">
-        <h1 class="text-4xl md:text-6xl font-extrabold banner-text text-blue-400 mb-4 uppercase">
-            Cyber Security Hub
-        </h1>
-        <div class="flex items-center justify-center space-x-2 text-gray-400 font-medium">
-            <i class="fas fa-code text-blue-500"></i>
-            <span>Developer: <span class="text-white">Nawab ZADA Hacker 🔥🙌🖥️</span></span>
+    <div id="lockOverlay">
+        <div class="glass-card p-10 max-w-md mx-4 border-blue-500/50">
+            <i class="fab fa-whatsapp text-6xl text-green-500 mb-6 animate-pulse"></i>
+            <h2 class="text-2xl font-bold text-white mb-2">ACCESS RESTRICTED</h2>
+            <p class="text-gray-400 text-sm mb-8">Jani, website unlock karne ke liye hamara official WhatsApp channel follow karein!</p>
+            
+            <a href="https://whatsapp.com/channel/0029VbB47ttDDmFNztpnZf2m" 
+               target="_blank" 
+               onclick="unlockTool()"
+               class="inline-block w-full bg-green-600 hover:bg-green-500 text-white font-black py-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-green-900/20">
+                FOLLOW & UNLOCK <i class="fas fa-unlock-alt ml-2"></i>
+            </a>
+            
+            <p class="mt-6 text-[10px] text-gray-600 uppercase tracking-widest">Powered by Nawab ZADA Team</p>
         </div>
-        <div class="h-1 w-48 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto mt-6"></div>
     </div>
 
-    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
-        
-        <div class="glass-card p-8 shadow-2xl">
-            <div class="flex items-center mb-6 text-blue-400 border-b border-gray-700 pb-4">
-                <i class="fas fa-shield-virus text-3xl mr-4"></i>
-                <h2 class="text-2xl font-bold uppercase tracking-wider">Breach Detector</h2>
+    <div id="mainDashboard" class="hidden-content">
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-extrabold banner-text text-blue-400 mb-4 uppercase">
+                Cyber Security Hub
+            </h1>
+            <div class="flex items-center justify-center space-x-2 text-gray-400 font-medium">
+                <i class="fas fa-code text-blue-500"></i>
+                <span>Developer: <span class="text-white">Nawab ZADA Hacker 🔥🙌🖥️</span></span>
             </div>
-            <p class="text-sm text-gray-400 mb-6 font-light">Enter your Gmail to verify if your data exists in global leaked databases.</p>
-            
-            <div class="relative">
+            <div class="h-1 w-48 bg-gradient-to-r from-transparent via-blue-500 to-transparent mx-auto mt-6"></div>
+        </div>
+
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
+            <div class="glass-card p-8 shadow-2xl">
+                <div class="flex items-center mb-6 text-blue-400 border-b border-gray-700 pb-4">
+                    <i class="fas fa-shield-virus text-3xl mr-4"></i>
+                    <h2 class="text-2xl font-bold uppercase tracking-wider">Breach Detector</h2>
+                </div>
+                <p class="text-sm text-gray-400 mb-6 font-light">Enter your Gmail to verify if your data exists in global leaked databases.</p>
                 <input type="email" id="emailInput" placeholder="example@gmail.com" 
                     class="w-full bg-black/50 border border-gray-600 p-4 rounded-xl cyan-glow outline-none transition-all text-blue-100">
+                <button onclick="checkEmail()" class="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-blue-900/20">
+                    INITIATE SCAN
+                </button>
+                <div id="emailResult" class="mt-6"></div>
             </div>
-            
-            <button onclick="checkEmail()" class="w-full mt-6 bg-blue-600 hover:bg-blue-500 text-white font-black py-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-blue-900/20">
-                INITIATE SCAN
-            </button>
-            
-            <div id="emailResult" class="mt-6"></div>
-        </div>
 
-        <div class="glass-card p-8 shadow-2xl">
-            <div class="flex items-center mb-6 text-purple-400 border-b border-gray-700 pb-4">
-                <i class="fas fa-fingerprint text-3xl mr-4"></i>
-                <h2 class="text-2xl font-bold uppercase tracking-wider">OSINT Tracker</h2>
-            </div>
-            <p class="text-sm text-gray-400 mb-6 font-light">Trace digital footprints across multiple social media networks instantly.</p>
-            
-            <div class="relative">
+            <div class="glass-card p-8 shadow-2xl">
+                <div class="flex items-center mb-6 text-purple-400 border-b border-gray-700 pb-4">
+                    <i class="fas fa-fingerprint text-3xl mr-4"></i>
+                    <h2 class="text-2xl font-bold uppercase tracking-wider">OSINT Tracker</h2>
+                </div>
+                <p class="text-sm text-gray-400 mb-6 font-light">Trace digital footprints across multiple social media networks instantly.</p>
                 <input type="text" id="userInput" placeholder="Username (e.g. nawabzada)" 
                     class="w-full bg-black/50 border border-gray-600 p-4 rounded-xl cyan-glow outline-none transition-all text-purple-100">
+                <button onclick="checkUsername()" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-black py-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-purple-900/20">
+                    START FOOTPRINTING
+                </button>
+                <div id="userResult" class="mt-6 space-y-3 max-h-60 overflow-y-auto pr-2"></div>
             </div>
-
-            <button onclick="checkUsername()" class="w-full mt-6 bg-purple-600 hover:bg-purple-500 text-white font-black py-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-purple-900/20">
-                START FOOTPRINTING
-            </button>
-            
-            <div id="userResult" class="mt-6 space-y-3 max-h-60 overflow-y-auto pr-2"></div>
         </div>
 
-    </div>
+        <div class="max-w-6xl mx-auto mt-12 p-4 border border-yellow-900/30 bg-yellow-900/10 rounded-lg text-center">
+            <p class="text-yellow-500 text-xs font-mono uppercase tracking-widest">
+                <i class="fas fa-exclamation-triangle mr-2"></i> Use this tool for educational and security awareness purposes only.
+            </p>
+        </div>
 
-    <div class="max-w-6xl mx-auto mt-12 p-4 border border-yellow-900/30 bg-yellow-900/10 rounded-lg text-center">
-        <p class="text-yellow-500 text-xs font-mono uppercase tracking-widest">
-            <i class="fas fa-exclamation-triangle mr-2"></i> Use this tool for educational and security awareness purposes only.
-        </p>
+        <footer class="mt-16 text-center text-gray-600">
+            <p class="text-sm font-bold uppercase tracking-tighter">
+                &copy; 2026 | Powered by <span class="text-blue-500">Nawab ZADA Security</span>
+            </p>
+        </footer>
     </div>
-
-    <footer class="mt-16 text-center text-gray-600">
-        <p class="text-sm font-bold uppercase tracking-tighter">
-            &copy; 2026 | Powered by <span class="text-blue-500">Nawab ZADA Security</span>
-        </p>
-    </footer>
 
     <script>
+        // --- UNLOCK SYSTEM ---
+        function unlockTool() {
+            setTimeout(() => {
+                document.getElementById('lockOverlay').style.display = 'none';
+                document.getElementById('mainDashboard').classList.remove('hidden-content');
+            }, 1000);
+        }
+
         // --- GMAIL BREACH LOGIC ---
         async function checkEmail() {
             const email = document.getElementById('emailInput').value;
             const resDiv = document.getElementById('emailResult');
-            
-            if(!email || !email.includes('@')) {
-                alert("Jani, valid email to daalo!");
-                return;
-            }
+            if(!email || !email.includes('@')) { alert("Jani, valid email to daalo!"); return; }
 
-            resDiv.innerHTML = `
-                <div class="flex items-center justify-center p-4 bg-blue-900/20 border border-blue-500/30 rounded-xl">
-                    <span class="animate-spin mr-3 border-2 border-t-transparent border-white rounded-full h-4 w-4"></span>
-                    <span class="text-blue-300 text-xs font-mono uppercase">Scanning Leaked Databases...</span>
-                </div>`;
+            resDiv.innerHTML = `<div class="flex items-center justify-center p-4 bg-blue-900/20 border border-blue-500/30 rounded-xl"><span class="animate-spin mr-3 border-2 border-t-transparent border-white rounded-full h-4 w-4"></span><span class="text-blue-300 text-xs font-mono uppercase">Scanning Databases...</span></div>`;
             
             setTimeout(() => {
-                resDiv.innerHTML = `
-                    <div class="p-4 bg-gray-800 border border-gray-600 rounded-xl text-center">
-                        <p class="text-white text-sm mb-3 font-semibold">Security Check Ready!</p>
-                        <p class="text-gray-400 text-xs mb-4">Privacy rules prevent showing data directly here. Click below for the secure report:</p>
-                        <button onclick="window.open('https://haveibeenpwned.com/account/${email}', '_blank')" 
-                                class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg text-xs font-bold transition-all">
-                            VIEW BREACH REPORT <i class="fas fa-external-link-alt ml-1"></i>
-                        </button>
-                    </div>`;
+                resDiv.innerHTML = `<div class="p-4 bg-gray-800 border border-gray-600 rounded-xl text-center"><p class="text-white text-sm mb-3 font-semibold">Security Check Ready!</p><button onclick="window.open('https://haveibeenpwned.com/account/${email}', '_blank')" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg text-xs font-bold transition-all">VIEW BREACH REPORT</button></div>`;
             }, 1800);
         }
 
@@ -143,13 +160,9 @@
         function checkUsername() {
             const user = document.getElementById('userInput').value;
             const resDiv = document.getElementById('userResult');
-            
             if(!user) return alert("Jani, username likhna bhool gaye!");
 
-            resDiv.innerHTML = `
-                <div class="flex items-center justify-center p-4 bg-purple-900/20 border border-purple-500/30 rounded-xl">
-                    <span class="animate-pulse text-purple-300 text-xs font-mono uppercase">Crawling Social Networks...</span>
-                </div>`;
+            resDiv.innerHTML = `<div class="flex items-center justify-center p-4 bg-purple-900/20 border border-purple-500/30 rounded-xl"><span class="animate-pulse text-purple-300 text-xs font-mono uppercase">Crawling Social Networks...</span></div>`;
             
             const platforms = [
                 { name: 'Instagram', url: `https://www.instagram.com/${user}/`, icon: 'fa-instagram' },
@@ -164,16 +177,7 @@
             setTimeout(() => {
                 resDiv.innerHTML = "";
                 platforms.forEach(p => {
-                    resDiv.innerHTML += `
-                        <div class="flex justify-between items-center p-3 bg-black/30 border border-gray-800 rounded-xl hover:border-purple-500/50 transition-all group">
-                            <div class="flex items-center">
-                                <i class="fab ${p.icon} mr-3 text-purple-400"></i>
-                                <span class="text-sm font-medium">${p.name}</span>
-                            </div>
-                            <a href="${p.url}" target="_blank" class="text-[10px] font-bold text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded-full group-hover:bg-cyan-400 group-hover:text-black transition-all uppercase">
-                                Check Link
-                            </a>
-                        </div>`;
+                    resDiv.innerHTML += `<div class="flex justify-between items-center p-3 bg-black/30 border border-gray-800 rounded-xl hover:border-purple-500/50 transition-all group"><div class="flex items-center"><i class="fab ${p.icon} mr-3 text-purple-400"></i><span class="text-sm font-medium">${p.name}</span></div><a href="${p.url}" target="_blank" class="text-[10px] font-bold text-cyan-400 border border-cyan-400/30 px-3 py-1 rounded-full group-hover:bg-cyan-400 group-hover:text-black transition-all uppercase">Check Link</a></div>`;
                 });
             }, 1500);
         }
